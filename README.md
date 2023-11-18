@@ -9,6 +9,8 @@ Group Members:
 
 @YUN4 (41023232)
 
+@Riley0819 (41071203)
+
 cmsimde template uses mdecycu/cmsimde as submodule
 
 On Replit:
