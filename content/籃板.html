@@ -2,7 +2,7 @@
         <head>
         <title>pj4102</title>
         <meta charset="utf-8">
-<meta property="head" content="H2">
+<meta property="head" content="H3">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700,900" rel="stylesheet">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/icomoon/style.css">
@@ -131,7 +131,7 @@ img.add_border {
                             <li><a href="./../blog/index.html">blog</a></li>
                         </ul>
                       </li>
-                     <li><a href='About.html'>About</a><li class='has-children'><a href='設計與改版.html'>設計與改版</a><ul class='dropdown'><li class='has-children'><a href='機器人.html'>機器人</a><ul class='dropdown'><li><a href='圖檔.html'>圖檔</a><li><a href='程式.html'>程式</a></li></ul><li><a href='球場之改版與程式設計.html'>球場之改版與程式設計</a><li><a href='記分板之改版與程式設計.html'>記分板之改版與程式設計</a><li><a href='球門之改版與程式設計.html'>球門之改版與程式設計</a></li></ul><li><a href='Score_counter.html'>Score_counter</a><li><a href='Brython.html'>Brython</a></li>
+                     <li><a href='About.html'>About</a><li class='has-children'><a href='遊戲設計與改版.html'>遊戲設計與改版</a><ul class='dropdown'><li class='has-children'><a href='圖檔.html'>圖檔</a><ul class='dropdown'><li><a href='籃板.html'>籃板</a></li></ul><li><a href='Score_counter.html'>Score_counter</a></li></ul><li><a href='Brython.html'>Brython</a></li>
                       </ul>
                 </nav>
               </div>
@@ -142,8 +142,38 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">球場之改版與程式設計 << <a href='球場之改版與程式設計.html'>Previous</a> <a href='球門之改版與程式設計.html'>Next</a> >> 球門之改版與程式設計<br /><h1>記分板之改版與程式設計</h1>
-<br />球場之改版與程式設計 << <a href='球場之改版與程式設計.html'>Previous</a> <a href='球門之改版與程式設計.html'>Next</a> >> 球門之改版與程式設計</div>
+    <div id="tipue_search_content">圖檔 << <a href='圖檔.html'>Previous</a> <a href='Score_counter.html'>Next</a> >> Score_counter<br /><h1>籃板</h1>
+<p><br/>籃板: 長 0.3m, 高 0.3m, 寬 0.1m, 位於足球門上方中央</p>
+<p>籃框: 由籃板向場內距離 0.1m, 內徑 0.2m, 框管直徑 0.02</p>
+<br/><br/>足球門
+<p><br/>足球門: 長 0.6m, 高 0.3m, 寬 0.1m</p>
+<h4>圖檔</h4>
+<h4><br/>程式</h4>
+<br/><br/>機械轉盤計分器
+<br/><br/>圖檔
+<br/><br/>Arduino
+<br/><br/>電子計時器
+<br/><br/>程式
+<br/><br/><br/>協同設定
+<br/><br/>遊戲連線步驟說明
+<br/><br/>倉儲維護
+<ol>
+<li>建立<span> </span><a href="https://replit.com/">Replit</a><span> </span>帳號</li>
+<li>登入 Email 驗證<span> </span><a href="https://replit.com/">Replit</a><span> </span>寄出的註冊確認電子郵件</li>
+<li>利用 import repository, 以<span> </span><a href="https://github.com/mdecycu/cmsite">cmsite</a><span> </span>倉儲內容, 建立 repl</li>
+<li>進入 .replit 檔案設定頁面, 將 main.py 設定為啟動程式</li>
+<li>在 shell 介面執行 git submodule update --init --recursive, 取下<span> </span><a href="https://github.com/mdecycu/cmsite">cmsite</a><span> </span>倉儲中 cmsimde 子模組檔案</li>
+<li>在 shell 介面執行 pip install flask flask_cors bs4 lxml pelican markdown gevent, 安裝 cmsimde 所需要的模組</li>
+<li>按下 Run, 啟動 main.py</li>
+<li>登入<span> </span><a href="https://github.com/mdecycu/cmsite">cmsite</a><span> </span>動態網站, 修改管理者密碼, 修改標題與內容後, 以 generate_pages 將動態網頁內容轉為靜態格式</li>
+<li>利用<span> </span><a href="https://replit.com/">Replit</a><span> </span>中的 Version Control 功能, 將改版資料推向遠端倉儲</li>
+</ol>
+<br/><br/>References
+
+<p style="padding-left: 30px;"><a href="https://github.com/mdecd2024/test-ag1">https://github.com/mdecd2024/test-ag1</a></p>
+<p style="padding-left: 30px;"><a href="https://github.com/mdecd2023/2a3-pj3ag4">https://github.com/mdecd2023/2a3-pj3ag4</a></p>
+<p style="padding-left: 30px;"><span>soccer field image from </span><a href="https://www.rawpixel.com/image/6479689/png-sticker-public-domain">public domain</a><span>.</span></p>
+<br />圖檔 << <a href='圖檔.html'>Previous</a> <a href='Score_counter.html'>Next</a> >> Score_counter</div>
         
     <!-- footer -->
       <div class="container">
