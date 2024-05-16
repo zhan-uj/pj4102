@@ -6,6 +6,7 @@ entrypoint = "main.py"
 # be hidden in the workspace.
 hidden = ["venv", ".config", "**/__pycache__", "**/.mypy_cache", "**/*.pyc"]
 run = "python3 main.py"
+modules = ["python-3.10:v18-20230807-322e88b"]
 
 # Specifies which nix channel to use when building the environment.
 [nix]
