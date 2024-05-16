@@ -2,7 +2,7 @@
         <head>
         <title>pj4102</title>
         <meta charset="utf-8">
-<meta property="head" content="H3">
+<meta property="head" content="H2">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700,900" rel="stylesheet">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/icomoon/style.css">
@@ -142,10 +142,18 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">球場 << <a href='球場.html'>Previous</a> <a href='足球門.html'>Next</a> >> 足球門<br /><h1>籃板</h1>
-<p><br/>籃板: 長 0.3m, 高 0.3m, 寬 0.1m, 位於足球門上方中央</p>
-<p><span>籃框: 由籃板向場內距離 0.1m, 內徑 0.2m, 框管直徑 0.02</span></p>
-<br />球場 << <a href='球場.html'>Previous</a> <a href='足球門.html'>Next</a> >> 足球門</div>
+    <div id="tipue_search_content">遊戲連線說明 << <a href='遊戲連線說明.html'>Previous</a> <a href='References.html'>Next</a> >> References<br /><h1>倉儲維護</h1>
+<ol>
+<li>建立<span> </span><a href="https://replit.com/">Replit</a><span> </span>帳號</li>
+<li>登入 Email 驗證<span> </span><a href="https://replit.com/">Replit</a><span> </span>寄出的註冊確認電子郵件</li>
+<li>利用 import repository, 以<span> </span><a href="https://github.com/mdecycu/cmsite">cmsite</a><span> </span>倉儲內容, 建立 repl</li>
+<li>進入 .replit 檔案設定頁面, 將 main.py 設定為啟動程式</li>
+<li>在 shell 介面執行 git submodule update --init --recursive, 取下<span> </span><a href="https://github.com/mdecycu/cmsite">cmsite</a><span> </span>倉儲中 cmsimde 子模組檔案</li>
+<li>在 shell 介面執行 pip install flask flask_cors bs4 lxml pelican markdown gevent, 安裝 cmsimde 所需要的模組</li>
+<li>按下 Run, 啟動 main.py</li>
+<li>登入<span> </span><a href="https://github.com/mdecycu/cmsite">cmsite</a><span> </span>動態網站, 修改管理者密碼, 修改標題與內容後, 以 generate_pages 將動態網頁內容轉為靜態格式</li>
+<li>利用<span> </span><a href="https://replit.com/">Replit</a><span> </span>中的 Version Control 功能, 將改版資料推向遠端倉儲</li>
+</ol><br />遊戲連線說明 << <a href='遊戲連線說明.html'>Previous</a> <a href='References.html'>Next</a> >> References</div>
         
     <!-- footer -->
       <div class="container">
