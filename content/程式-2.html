@@ -131,7 +131,7 @@ img.add_border {
                             <li><a href="./../blog/index.html">blog</a></li>
                         </ul>
                       </li>
-                     <li><a href='About.html'>About</a><li class='has-children'><a href='遊戲設計與改版.html'>遊戲設計與改版</a><ul class='dropdown'><li class='has-children'><a href='機器人.html'>機器人</a><ul class='dropdown'><li><a href='圖檔-1.html'>圖檔-1</a><li><a href='程式-1.html'>程式-1</a></li></ul><li class='has-children'><a href='球場.html'>球場</a><ul class='dropdown'><li><a href='籃板.html'>籃板</a><li><a href='足球門.html'>足球門</a></li></ul><li class='has-children'><a href='機械轉盤計分器.html'>機械轉盤計分器</a><ul class='dropdown'><li><a href='圖檔-2.html'>圖檔-2</a><li><a href='Arduino.html'>Arduino</a></li></ul><li class='has-children'><a href='電子計時器.html'>電子計時器</a><ul class='dropdown'><li><a href='程式-2.html'>程式-2</a></li></li></ul></ul><li class='has-children'><a href='協同設定.html'>協同設定</a><ul class='dropdown'><li><a href='遊戲連線說明.html'>遊戲連線說明</a><li><a href='倉儲維護.html'>倉儲維護</a></li></ul><li class='has-children'><a href='References.html'>References</a><ul class='dropdown'><li><a href='Score_counter.html'>Score_counter</a></li></ul><li><a href='Brython.html'>Brython</a></li>
+                     <li><a href='About.html'>About</a><li class='has-children'><a href='遊戲設計與改版.html'>遊戲設計與改版</a><ul class='dropdown'><li class='has-children'><a href='機器人.html'>機器人</a><ul class='dropdown'><li><a href='圖檔-1.html'>圖檔-1</a><li><a href='程式-1.html'>程式-1</a></li></ul><li class='has-children'><a href='球場.html'>球場</a><ul class='dropdown'><li><a href='籃框程式.html'>籃框程式</a><li><a href='足球門程式.html'>足球門程式</a></li></ul><li class='has-children'><a href='機械轉盤計分器.html'>機械轉盤計分器</a><ul class='dropdown'><li><a href='圖檔-2.html'>圖檔-2</a><li><a href='Arduino.html'>Arduino</a></li></ul><li class='has-children'><a href='電子計時器.html'>電子計時器</a><ul class='dropdown'><li><a href='程式-2.html'>程式-2</a></li></li></ul></ul><li class='has-children'><a href='協同設定.html'>協同設定</a><ul class='dropdown'><li><a href='遊戲連線說明.html'>遊戲連線說明</a><li><a href='倉儲維護.html'>倉儲維護</a></li></ul><li class='has-children'><a href='References.html'>References</a><ul class='dropdown'><li><a href='Score_counter.html'>Score_counter</a></li></ul><li><a href='Brython.html'>Brython</a></li>
                       </ul>
                 </nav>
               </div>
@@ -143,6 +143,69 @@ img.add_border {
           
         </header>
     <div id="tipue_search_content">電子計時器 << <a href='電子計時器.html'>Previous</a> <a href='協同設定.html'>Next</a> >> 協同設定<br /><h1>程式-2</h1>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">function sysCall_init()
+    t2=0
+    s0={1,1,1,0,1,1,1}
+    s1={0,0,1,0,0,1,0}
+    s2={1,0,1,1,1,0,1}
+    s3={1,0,1,1,0,1,1}
+    s4={0,1,1,1,0,1,0}
+    s5={1,1,0,1,0,1,1}
+    s6={1,1,0,1,1,1,1}
+    s7={1,0,1,0,0,1,0}
+    s8={1,1,1,1,1,1,1}
+    s9={1,1,1,1,0,1,1}
+    s={s0,s1,s2,s3,s4,s5,s6,s7,s8,s9}
+    
+    score(0,'a')
+    score(0,'b')
+    score(0,'c')
+    score(0,'d')
+end
+
+function score(x,y)
+    for i=0 ,9,1 do
+        if (x==i)then
+            for j = 0,6,1 do
+                local part = sim.getObject('./'..y..''..j..'')
+                if (s[i+1][j+1]==1) then
+                    sim.setShapeColor(part, nil, sim.colorcomponent_ambient_diffuse, {1, 0, 0})
+                else
+                    sim.setShapeColor(part, nil, sim.colorcomponent_ambient_diffuse, {0, 0, 0})
+                end
+            end
+        end
+    end
+end
+
+function sysCall_actuation()
+    
+    simulationTime = sim.getSimulationTime()
+    simulationTime1=600-simulationTime/3
+
+    t1=math.floor((simulationTime1/600)%10)
+    score(t1,'a')
+    t2=math.floor((simulationTime1/60)%10)
+    score(t2,'b')
+    t3=math.floor((simulationTime1/10)%6)
+    score(t3,'c')
+    t4=math.floor(simulationTime1%10)
+    score(t4,'d')
+    
+    if (simulationTime1&lt;1)then
+        sim.pauseSimulation()
+    end
+    
+    p=sim.getSimulationState()
+    if(p==22)then
+        score(0,'a')
+        score(0,'b')
+        score(0,'c')
+        score(0,'d')
+    end
+        
+    
+end</pre>
 <br />電子計時器 << <a href='電子計時器.html'>Previous</a> <a href='協同設定.html'>Next</a> >> 協同設定</div>
         
     <!-- footer -->

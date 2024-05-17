@@ -131,7 +131,7 @@ img.add_border {
                             <li><a href="./../blog/index.html">blog</a></li>
                         </ul>
                       </li>
-                     <li><a href='About.html'>About</a><li class='has-children'><a href='遊戲設計與改版.html'>遊戲設計與改版</a><ul class='dropdown'><li class='has-children'><a href='機器人.html'>機器人</a><ul class='dropdown'><li><a href='圖檔-1.html'>圖檔-1</a><li><a href='程式-1.html'>程式-1</a></li></ul><li class='has-children'><a href='球場.html'>球場</a><ul class='dropdown'><li><a href='籃板.html'>籃板</a><li><a href='足球門.html'>足球門</a></li></ul><li class='has-children'><a href='機械轉盤計分器.html'>機械轉盤計分器</a><ul class='dropdown'><li><a href='圖檔-2.html'>圖檔-2</a><li><a href='Arduino.html'>Arduino</a></li></ul><li class='has-children'><a href='電子計時器.html'>電子計時器</a><ul class='dropdown'><li><a href='程式-2.html'>程式-2</a></li></li></ul></ul><li class='has-children'><a href='協同設定.html'>協同設定</a><ul class='dropdown'><li><a href='遊戲連線說明.html'>遊戲連線說明</a><li><a href='倉儲維護.html'>倉儲維護</a></li></ul><li class='has-children'><a href='References.html'>References</a><ul class='dropdown'><li><a href='Score_counter.html'>Score_counter</a></li></ul><li><a href='Brython.html'>Brython</a></li>
+                     <li><a href='About.html'>About</a><li class='has-children'><a href='遊戲設計與改版.html'>遊戲設計與改版</a><ul class='dropdown'><li class='has-children'><a href='機器人.html'>機器人</a><ul class='dropdown'><li><a href='圖檔-1.html'>圖檔-1</a><li><a href='程式-1.html'>程式-1</a></li></ul><li class='has-children'><a href='球場.html'>球場</a><ul class='dropdown'><li><a href='籃框程式.html'>籃框程式</a><li><a href='足球門程式.html'>足球門程式</a></li></ul><li class='has-children'><a href='機械轉盤計分器.html'>機械轉盤計分器</a><ul class='dropdown'><li><a href='圖檔-2.html'>圖檔-2</a><li><a href='Arduino.html'>Arduino</a></li></ul><li class='has-children'><a href='電子計時器.html'>電子計時器</a><ul class='dropdown'><li><a href='程式-2.html'>程式-2</a></li></li></ul></ul><li class='has-children'><a href='協同設定.html'>協同設定</a><ul class='dropdown'><li><a href='遊戲連線說明.html'>遊戲連線說明</a><li><a href='倉儲維護.html'>倉儲維護</a></li></ul><li class='has-children'><a href='References.html'>References</a><ul class='dropdown'><li><a href='Score_counter.html'>Score_counter</a></li></ul><li><a href='Brython.html'>Brython</a></li>
                       </ul>
                 </nav>
               </div>
@@ -143,6 +143,167 @@ img.add_border {
           
         </header>
     <div id="tipue_search_content">圖檔-1 << <a href='圖檔-1.html'>Previous</a> <a href='球場.html'>Next</a> >> 球場<br /><h1>程式-1</h1>
+<p>第一版</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from zmqRemoteApi_IPv6 import RemoteAPIClient
+import keyboard
+
+# 创建客户端连接
+client = RemoteAPIClient('localhost', 23000)
+
+print('Program started')
+# 获取sim对象
+sim = client.getObject('sim')
+# 开始模拟
+sim.startSimulation()
+print('Simulation started')
+
+# 定义设置轮子运动的函数
+def setWheelMotion(leftSpeed, rightSpeed, up):
+    # 获取各个轮子和升降装置的对象
+    frontLeftWheel = sim.getObject('/frontLeftJoint1')
+    frontRightWheel = sim.getObject('/frontRightJoint1')
+    rearLeftWheel = sim.getObject('/rearLeftJoint1')
+    rearRightWheel = sim.getObject('/rearRightJoint1')
+    upanddown = sim.getObject('/upanddown')
+    # 设置各个轮子的目标速度
+    sim.setJointTargetVelocity(frontLeftWheel, leftSpeed)
+    sim.setJointTargetVelocity(frontRightWheel, rightSpeed)
+    sim.setJointTargetVelocity(rearLeftWheel, leftSpeed)
+    sim.setJointTargetVelocity(rearRightWheel, rightSpeed)
+    sim.setJointTargetVelocity(upanddown, up)
+
+# 初始化运动变量
+leftSpeed = 0
+rightSpeed = 0
+up = 0
+
+# 主循环
+while True:
+    # 检查键盘输入以设置前进和后退速度
+    if keyboard.is_pressed('w'):
+        leftSpeed = 10  # 前进
+        rightSpeed = 10  # 前进
+    elif keyboard.is_pressed('s'):
+        leftSpeed = -10  # 后退
+        rightSpeed = -10  # 后退
+    else:
+        leftSpeed = 0
+        rightSpeed = 0
+
+    # 检查键盘输入以设置转向速度
+    if keyboard.is_pressed('a'):
+        leftSpeed += 5  # 左转
+        rightSpeed -= 5  # 左转
+    elif keyboard.is_pressed('d'):
+        leftSpeed -= 5  # 右转
+        rightSpeed += 5  # 右转
+
+    # 检查键盘输入以设置升降速度
+    if keyboard.is_pressed('J'):
+        up = 10  # 上升
+    elif keyboard.is_pressed('K'):
+        up = -10  # 下降
+    else:
+        up = 0        
+
+    # 检查键盘输入以退出程序
+    if keyboard.is_pressed('q'):
+        break  # 退出
+
+    # 设置所有轮子的运动
+    setWheelMotion(leftSpeed, rightSpeed, up)
+
+# 停止模拟
+sim.stopSimulation()
+
+
+ 
+
+# Stop the simulation
+sim.stopSimulation()
+</pre>
+<p>第二版</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from zmqRemoteApi_IPv6 import RemoteAPIClient
+import keyboard
+
+client = RemoteAPIClient('localhost', 23000)
+
+print('Program started')
+sim = client.getObject('sim')
+sim.startSimulation()
+print('Simulation started')
+
+def setWheelMotion(leftSpeed, rightSpeed, up1, up2, up3):
+    # Set target velocity for each wheel
+    frontLeftWheel = sim.getObject('/frontLeftJoint')
+    frontRightWheel = sim.getObject('/frontRightJoint')
+    rearLeftWheel = sim.getObject('/rearLeftJoint')
+    rearRightWheel = sim.getObject('/rearRightJoint')
+    upanddown1 = sim.getObject('/upanddown1')
+    upanddown2 = sim.getObject('/upanddown2')
+    upanddown3 = sim.getObject('/upanddown3')
+    sim.setJointTargetVelocity(frontLeftWheel, leftSpeed)
+    sim.setJointTargetVelocity(frontRightWheel, rightSpeed)
+    sim.setJointTargetVelocity(rearLeftWheel, leftSpeed)
+    sim.setJointTargetVelocity(rearRightWheel, rightSpeed)
+    sim.setJointTargetVelocity(upanddown1,up1)
+    sim.setJointTargetVelocity(upanddown2,up2) 
+    sim.setJointTargetVelocity(upanddown3,up3)
+# Initialize motion variables
+leftSpeed = 0
+rightSpeed = 0
+up1 = 0
+up2 = 0
+up3 = 0
+# Main loop
+while True:
+    # Check keyboard input
+    if keyboard.is_pressed('w'):
+        leftSpeed = 10  # Forward motion
+        rightSpeed = 10  # Forward motion
+    elif keyboard.is_pressed('s'):
+        leftSpeed = -10  # Backward motion
+        rightSpeed = -10  # Backward motion
+    else:
+        leftSpeed = 0
+        rightSpeed = 0
+
+    if keyboard.is_pressed('a'):
+        leftSpeed -= 5  # Left turn
+        rightSpeed += 5  # Left turn
+    elif keyboard.is_pressed('d'):
+        leftSpeed += 5  # Right turn
+        rightSpeed -= 5  # Right turn
+        
+    if keyboard.is_pressed('1'):
+        up1 = 1  # Forward motion
+    elif keyboard.is_pressed('3'):
+        up1 = -1  # Backward motion
+    else:
+        up1 = 0
+        
+    if keyboard.is_pressed('4'):
+        up2 = 1  # Forward motion
+    elif keyboard.is_pressed('6'):
+        up2 = -1  # Backward motion
+    else:
+        up2 = 0
+        
+    if keyboard.is_pressed('7'):
+        up3 = 1  # Forward motion
+    elif keyboard.is_pressed('9'):
+        up3 = -1  # Backward motion
+    else:
+        up3 = 0
+        
+    if keyboard.is_pressed('q'):
+        break  # Quit
+
+    # Set motion for all wheels
+    setWheelMotion(leftSpeed, rightSpeed, up1, up2, up3)
+
+# Stop the simulation
+sim.stopSimulation()</pre>
 <br />圖檔-1 << <a href='圖檔-1.html'>Previous</a> <a href='球場.html'>Next</a> >> 球場</div>
         
     <!-- footer -->

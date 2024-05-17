@@ -1,6 +1,7 @@
 <h1>About</h1>
 <p>專題題目：<strong>網際球賽機器人協同設計與模擬</strong></p>
 <p><strong>Web-based Ball Game Robot Collaborative Design and Simulation</strong></p>
+<p style="text-align: center;"><strong><img alt="" height="257" src="/images/1.png" width="274"/></strong></p>
 <p>專題網站: <a href="https://mde.tw/pj4102">https://mde.tw/pj4102</a></p>
 <p>專題倉儲: <a href="https://github.com/mdecycu/pj4102">https://github.com/mdecycu/pj4102</a></p>
 <p>專題成員:</p>
@@ -12,45 +13,460 @@
 <hr/>
 <p><strong>網際球賽機器人協同設計與模擬</strong></p>
 <p>球賽設計:</p>
-<p style="padding-left: 30px;">競技場景中必須納入數位計時器與類比記分機構</p>
 <p style="padding-left: 30px;">每場競技時間為 10 分鐘</p>
 <p style="padding-left: 30px;">每隊球員機器人依照各組人數平均分為兩隊</p>
-<p style="padding-left: 30px;">每位機器人球員必須同時具備踢球、取球與投球機構</p>
 <p style="padding-left: 30px;">雙方陣營各有足球門與籃球框各一具</p>
 <p style="padding-left: 30px;">球場中由裁判程式於開場時, 在球場正中央落下 10 球</p>
 <p style="padding-left: 30px;">將球踢進對方球門者得 1 分, 將球投入對方籃框者得 5 分</p>
-<p></p>
-<p>球場參考規格:</p>
-<p style="padding-left: 30px;">競技球: 白色, 直徑 0.1m, 重量 0.5kg</p>
-<p style="padding-left: 30px;">場地: 長 4m x 寬 2.5m, 外圍以足夠高度之隱形柵欄區隔</p>
-<p style="padding-left: 30px;">足球門: 長 0.6m, 高 0.3m, 寬 0.1m</p>
-<p style="padding-left: 30px;">籃板: 長 0.3m, 高 0.3m, 寬 0.1m, 位於足球門上方中央</p>
-<p style="padding-left: 30px;">籃框: 由籃板向場內距離 0.1m, 內徑 0.2m, 框管直徑 0.02</p>
-<p style="padding-left: 30px;">球員尺寸範圍: 長寬高各 0.2m, 重量 5kg</p>
-<p>根據上述球場參考尺寸規格建置場景下載:</p>
-<p style="padding-left: 30px;"><a href="http://229.cycu.org/cd2024_footbasketball_field_specification_step2.7z">cd2024_footbasketball_field_specification_step2.7z</a> (需要密碼)</p>
-<p><img caption="false" height="216" src="/images/cd2024_field_step2.png" width="400"/></p>
-<p>soccer field image from <a href="https://www.rawpixel.com/image/6479689/png-sticker-public-domain">public domain</a>.</p>
 <h1>遊戲設計與改版</h1>
 <h2>機器人</h2>
 <p>球員尺寸範圍: 長寬高各 0.2m, 重量 5kg</p>
 <h3>圖檔</h3>
+<p><img alt="" height="166" src="/images/3.png" width="239"/></p>
+<p><a href="/downloads/robot1.ttt">robot第一版.ttt</a></p>
+<p><img alt="" height="255" src="/images/2.png" width="247"/></p>
+<p><a href="/downloads/robot2.ttt">robot第二版.ttt</a></p>
+<p><a href="/downloads/robot part.zip">robot part.zip</a></p>
 <h3>程式</h3>
+<p>第一版</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from zmqRemoteApi_IPv6 import RemoteAPIClient
+import keyboard
+
+# 创建客户端连接
+client = RemoteAPIClient('localhost', 23000)
+
+print('Program started')
+# 获取sim对象
+sim = client.getObject('sim')
+# 开始模拟
+sim.startSimulation()
+print('Simulation started')
+
+# 定义设置轮子运动的函数
+def setWheelMotion(leftSpeed, rightSpeed, up):
+    # 获取各个轮子和升降装置的对象
+    frontLeftWheel = sim.getObject('/frontLeftJoint1')
+    frontRightWheel = sim.getObject('/frontRightJoint1')
+    rearLeftWheel = sim.getObject('/rearLeftJoint1')
+    rearRightWheel = sim.getObject('/rearRightJoint1')
+    upanddown = sim.getObject('/upanddown')
+    # 设置各个轮子的目标速度
+    sim.setJointTargetVelocity(frontLeftWheel, leftSpeed)
+    sim.setJointTargetVelocity(frontRightWheel, rightSpeed)
+    sim.setJointTargetVelocity(rearLeftWheel, leftSpeed)
+    sim.setJointTargetVelocity(rearRightWheel, rightSpeed)
+    sim.setJointTargetVelocity(upanddown, up)
+
+# 初始化运动变量
+leftSpeed = 0
+rightSpeed = 0
+up = 0
+
+# 主循环
+while True:
+    # 检查键盘输入以设置前进和后退速度
+    if keyboard.is_pressed('w'):
+        leftSpeed = 10  # 前进
+        rightSpeed = 10  # 前进
+    elif keyboard.is_pressed('s'):
+        leftSpeed = -10  # 后退
+        rightSpeed = -10  # 后退
+    else:
+        leftSpeed = 0
+        rightSpeed = 0
+
+    # 检查键盘输入以设置转向速度
+    if keyboard.is_pressed('a'):
+        leftSpeed += 5  # 左转
+        rightSpeed -= 5  # 左转
+    elif keyboard.is_pressed('d'):
+        leftSpeed -= 5  # 右转
+        rightSpeed += 5  # 右转
+
+    # 检查键盘输入以设置升降速度
+    if keyboard.is_pressed('J'):
+        up = 10  # 上升
+    elif keyboard.is_pressed('K'):
+        up = -10  # 下降
+    else:
+        up = 0        
+
+    # 检查键盘输入以退出程序
+    if keyboard.is_pressed('q'):
+        break  # 退出
+
+    # 设置所有轮子的运动
+    setWheelMotion(leftSpeed, rightSpeed, up)
+
+# 停止模拟
+sim.stopSimulation()
+
+
+ 
+
+# Stop the simulation
+sim.stopSimulation()
+</pre>
+<p>第二版</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from zmqRemoteApi_IPv6 import RemoteAPIClient
+import keyboard
+
+client = RemoteAPIClient('localhost', 23000)
+
+print('Program started')
+sim = client.getObject('sim')
+sim.startSimulation()
+print('Simulation started')
+
+def setWheelMotion(leftSpeed, rightSpeed, up1, up2, up3):
+    # Set target velocity for each wheel
+    frontLeftWheel = sim.getObject('/frontLeftJoint')
+    frontRightWheel = sim.getObject('/frontRightJoint')
+    rearLeftWheel = sim.getObject('/rearLeftJoint')
+    rearRightWheel = sim.getObject('/rearRightJoint')
+    upanddown1 = sim.getObject('/upanddown1')
+    upanddown2 = sim.getObject('/upanddown2')
+    upanddown3 = sim.getObject('/upanddown3')
+    sim.setJointTargetVelocity(frontLeftWheel, leftSpeed)
+    sim.setJointTargetVelocity(frontRightWheel, rightSpeed)
+    sim.setJointTargetVelocity(rearLeftWheel, leftSpeed)
+    sim.setJointTargetVelocity(rearRightWheel, rightSpeed)
+    sim.setJointTargetVelocity(upanddown1,up1)
+    sim.setJointTargetVelocity(upanddown2,up2) 
+    sim.setJointTargetVelocity(upanddown3,up3)
+# Initialize motion variables
+leftSpeed = 0
+rightSpeed = 0
+up1 = 0
+up2 = 0
+up3 = 0
+# Main loop
+while True:
+    # Check keyboard input
+    if keyboard.is_pressed('w'):
+        leftSpeed = 10  # Forward motion
+        rightSpeed = 10  # Forward motion
+    elif keyboard.is_pressed('s'):
+        leftSpeed = -10  # Backward motion
+        rightSpeed = -10  # Backward motion
+    else:
+        leftSpeed = 0
+        rightSpeed = 0
+
+    if keyboard.is_pressed('a'):
+        leftSpeed -= 5  # Left turn
+        rightSpeed += 5  # Left turn
+    elif keyboard.is_pressed('d'):
+        leftSpeed += 5  # Right turn
+        rightSpeed -= 5  # Right turn
+        
+    if keyboard.is_pressed('1'):
+        up1 = 1  # Forward motion
+    elif keyboard.is_pressed('3'):
+        up1 = -1  # Backward motion
+    else:
+        up1 = 0
+        
+    if keyboard.is_pressed('4'):
+        up2 = 1  # Forward motion
+    elif keyboard.is_pressed('6'):
+        up2 = -1  # Backward motion
+    else:
+        up2 = 0
+        
+    if keyboard.is_pressed('7'):
+        up3 = 1  # Forward motion
+    elif keyboard.is_pressed('9'):
+        up3 = -1  # Backward motion
+    else:
+        up3 = 0
+        
+    if keyboard.is_pressed('q'):
+        break  # Quit
+
+    # Set motion for all wheels
+    setWheelMotion(leftSpeed, rightSpeed, up1, up2, up3)
+
+# Stop the simulation
+sim.stopSimulation()</pre>
 <h2>球場</h2>
+<p><img alt="" height="163" src="/images/4.png" width="451"/></p>
 <p><span>場地: 長 4m x 寬 2.5m, 外圍以足夠高度之隱形柵欄區隔</span></p>
 <p>競技球: 白色, 直徑 0.1m, 重量 0.5kg</p>
-<h3>籃板</h3>
-<p><br/>籃板: 長 0.3m, 高 0.3m, 寬 0.1m, 位於足球門上方中央</p>
+<p>籃板: 長 0.3m, 高 0.3m, 寬 0.1m, 位於足球門上方中央</p>
 <p><span>籃框: 由籃板向場內距離 0.1m, 內徑 0.2m, 框管直徑 0.02</span></p>
-<h3>足球門</h3>
-<p><br/>足球門: 長 0.6m, 高 0.3m, 寬 0.1m</p>
-<h4>圖檔</h4>
-<h4><br/>程式</h4>
+<p><span>足球門: 長 0.6m, 高 0.3m, 寬 0.1m</span></p>
+<h3>籃框程式</h3>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">function sysCall_init()
+    wheelJoint = sim.getObjectHandle('/joint1g')
+    rim1 = sim.getObject('/Cylinder1') 
+    ball1 = sim.getObject('/ball1')
+    ball2 = sim.getObject('/ball2')
+    ball3 = sim.getObject('/ball3')
+    ball4 = sim.getObject('/ball4')
+    ball5 = sim.getObject('/ball5')
+    ball6 = sim.getObject('/ball6')
+    ball7 = sim.getObject('/ball7')
+    ball8 = sim.getObject('/ball8')
+    ball9 = sim.getObject('/ball9')
+    ball10 = sim.getObject('/ball10')
+
+end
+
+function sysCall_actuation()
+    collision1= sim.checkCollision(ball1,rim1)
+    collision2= sim.checkCollision(ball2,rim1)
+    collision3= sim.checkCollision(ball3,rim1)
+    collision4= sim.checkCollision(ball4,rim1)
+    collision5= sim.checkCollision(ball5,rim1)
+    collision6= sim.checkCollision(ball6,rim1)
+    collision7= sim.checkCollision(ball7,rim1)
+    collision8= sim.checkCollision(ball8,rim1)
+    collision9= sim.checkCollision(ball9,rim1)
+    collision10= sim.checkCollision(ball10,rim1)
+    if ( collision1 &gt; 0) then
+        sim.setObjectPosition(ball1, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-179.999)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision2 &gt; 0) then
+        sim.setObjectPosition(ball2, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-179.999)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision3 &gt; 0) then
+        sim.setObjectPosition(ball3, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-179.999)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision4 &gt; 0) then
+        sim.setObjectPosition(ball4, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-179.999)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision5 &gt; 0) then
+        sim.setObjectPosition(ball5, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-179.999)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision6 &gt; 0) then
+        sim.setObjectPosition(ball6, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-179.999)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision7 &gt; 0) then
+        sim.setObjectPosition(ball7, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-179.999)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision8 &gt; 0) then
+        sim.setObjectPosition(ball8, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-179.999)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision9 &gt; 0) then
+        sim.setObjectPosition(ball9, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-179.999)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision10 &gt; 0) then
+        sim.setObjectPosition(ball10, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-179.999)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+             end
+            end
+           end
+          end
+         end
+        end
+      end
+     end
+    end  
+  end
+end</pre>
+<p></p>
+<h3>足球門程式</h3>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">function sysCall_init()
+    wheelJoint = sim.getObjectHandle('/joint1g')
+    door1 = sim.getObject('/Cuboid') 
+    ball1 = sim.getObject('/ball1')
+    ball2 = sim.getObject('/ball2')
+    ball3 = sim.getObject('/ball3')
+    ball4 = sim.getObject('/ball4')
+    ball5 = sim.getObject('/ball5')
+    ball6 = sim.getObject('/ball6')
+    ball7 = sim.getObject('/ball7')
+    ball8 = sim.getObject('/ball8')
+    ball9 = sim.getObject('/ball9')
+    ball10 = sim.getObject('/ball10')
+
+end
+
+function sysCall_actuation()
+    collision1= sim.checkCollision(ball1,door1)
+    collision2= sim.checkCollision(ball2,door1)
+    collision3= sim.checkCollision(ball3,door1)
+    collision4= sim.checkCollision(ball4,door1)
+    collision5= sim.checkCollision(ball5,door1)
+    collision6= sim.checkCollision(ball6,door1)
+    collision7= sim.checkCollision(ball7,door1)
+    collision8= sim.checkCollision(ball8,door1)
+    collision9= sim.checkCollision(ball9,door1)
+    collision10= sim.checkCollision(ball10,door1)
+    if ( collision1 &gt; 0) then
+        sim.setObjectPosition(ball1, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision2 &gt; 0) then
+        sim.setObjectPosition(ball2, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision3 &gt; 0) then
+        sim.setObjectPosition(ball3, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision4 &gt; 0) then
+        sim.setObjectPosition(ball4, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision5 &gt; 0) then
+        sim.setObjectPosition(ball5, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision6 &gt; 0) then
+        sim.setObjectPosition(ball6, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision7 &gt; 0) then
+        sim.setObjectPosition(ball7, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision8 &gt; 0) then
+        sim.setObjectPosition(ball8, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision9 &gt; 0) then
+        sim.setObjectPosition(ball9, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision10 &gt; 0) then
+        sim.setObjectPosition(ball10, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+             end
+            end
+           end
+          end
+         end
+        end
+      end
+     end
+    end  
+  end
+end</pre>
+<p></p>
 <h2>機械轉盤計分器</h2>
+<p><img alt="" height="168" src="/images/5.png" width="435"/></p>
 <h3>圖檔</h3>
+<p><a href="/downloads/機械記分板與零件.zip">機械記分板與零件.zip</a></p>
 <h3>Arduino</h3>
 <h2>電子計時器</h2>
+<p><img alt="" height="140" src="/images/6.png" width="376"/></p>
 <h3>程式</h3>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">function sysCall_init()
+    t2=0
+    s0={1,1,1,0,1,1,1}
+    s1={0,0,1,0,0,1,0}
+    s2={1,0,1,1,1,0,1}
+    s3={1,0,1,1,0,1,1}
+    s4={0,1,1,1,0,1,0}
+    s5={1,1,0,1,0,1,1}
+    s6={1,1,0,1,1,1,1}
+    s7={1,0,1,0,0,1,0}
+    s8={1,1,1,1,1,1,1}
+    s9={1,1,1,1,0,1,1}
+    s={s0,s1,s2,s3,s4,s5,s6,s7,s8,s9}
+    
+    score(0,'a')
+    score(0,'b')
+    score(0,'c')
+    score(0,'d')
+end
+
+function score(x,y)
+    for i=0 ,9,1 do
+        if (x==i)then
+            for j = 0,6,1 do
+                local part = sim.getObject('./'..y..''..j..'')
+                if (s[i+1][j+1]==1) then
+                    sim.setShapeColor(part, nil, sim.colorcomponent_ambient_diffuse, {1, 0, 0})
+                else
+                    sim.setShapeColor(part, nil, sim.colorcomponent_ambient_diffuse, {0, 0, 0})
+                end
+            end
+        end
+    end
+end
+
+function sysCall_actuation()
+    
+    simulationTime = sim.getSimulationTime()
+    simulationTime1=600-simulationTime/3
+
+    t1=math.floor((simulationTime1/600)%10)
+    score(t1,'a')
+    t2=math.floor((simulationTime1/60)%10)
+    score(t2,'b')
+    t3=math.floor((simulationTime1/10)%6)
+    score(t3,'c')
+    t4=math.floor(simulationTime1%10)
+    score(t4,'d')
+    
+    if (simulationTime1&lt;1)then
+        sim.pauseSimulation()
+    end
+    
+    p=sim.getSimulationState()
+    if(p==22)then
+        score(0,'a')
+        score(0,'b')
+        score(0,'c')
+        score(0,'d')
+    end
+        
+    
+end</pre>
 <h1>協同設定</h1>
 <h2>遊戲連線說明</h2>
 <h2>倉儲維護</h2>

@@ -131,7 +131,7 @@ img.add_border {
                             <li><a href="./../blog/index.html">blog</a></li>
                         </ul>
                       </li>
-                     <li><a href='About.html'>About</a><li class='has-children'><a href='遊戲設計與改版.html'>遊戲設計與改版</a><ul class='dropdown'><li class='has-children'><a href='機器人.html'>機器人</a><ul class='dropdown'><li><a href='圖檔-1.html'>圖檔-1</a><li><a href='程式-1.html'>程式-1</a></li></ul><li class='has-children'><a href='球場.html'>球場</a><ul class='dropdown'><li><a href='籃板.html'>籃板</a><li><a href='足球門.html'>足球門</a></li></ul><li class='has-children'><a href='機械轉盤計分器.html'>機械轉盤計分器</a><ul class='dropdown'><li><a href='圖檔-2.html'>圖檔-2</a><li><a href='Arduino.html'>Arduino</a></li></ul><li class='has-children'><a href='電子計時器.html'>電子計時器</a><ul class='dropdown'><li><a href='程式-2.html'>程式-2</a></li></li></ul></ul><li class='has-children'><a href='協同設定.html'>協同設定</a><ul class='dropdown'><li><a href='遊戲連線說明.html'>遊戲連線說明</a><li><a href='倉儲維護.html'>倉儲維護</a></li></ul><li class='has-children'><a href='References.html'>References</a><ul class='dropdown'><li><a href='Score_counter.html'>Score_counter</a></li></ul><li><a href='Brython.html'>Brython</a></li>
+                     <li><a href='About.html'>About</a><li class='has-children'><a href='遊戲設計與改版.html'>遊戲設計與改版</a><ul class='dropdown'><li class='has-children'><a href='機器人.html'>機器人</a><ul class='dropdown'><li><a href='圖檔-1.html'>圖檔-1</a><li><a href='程式-1.html'>程式-1</a></li></ul><li class='has-children'><a href='球場.html'>球場</a><ul class='dropdown'><li><a href='籃框程式.html'>籃框程式</a><li><a href='足球門程式.html'>足球門程式</a></li></ul><li class='has-children'><a href='機械轉盤計分器.html'>機械轉盤計分器</a><ul class='dropdown'><li><a href='圖檔-2.html'>圖檔-2</a><li><a href='Arduino.html'>Arduino</a></li></ul><li class='has-children'><a href='電子計時器.html'>電子計時器</a><ul class='dropdown'><li><a href='程式-2.html'>程式-2</a></li></li></ul></ul><li class='has-children'><a href='協同設定.html'>協同設定</a><ul class='dropdown'><li><a href='遊戲連線說明.html'>遊戲連線說明</a><li><a href='倉儲維護.html'>倉儲維護</a></li></ul><li class='has-children'><a href='References.html'>References</a><ul class='dropdown'><li><a href='Score_counter.html'>Score_counter</a></li></ul><li><a href='Brython.html'>Brython</a></li>
                       </ul>
                 </nav>
               </div>
@@ -142,11 +142,107 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">籃板 << <a href='籃板.html'>Previous</a> <a href='機械轉盤計分器.html'>Next</a> >> 機械轉盤計分器<br /><h1>足球門</h1>
-<p><br/>足球門: 長 0.6m, 高 0.3m, 寬 0.1m</p>
-<h4>圖檔</h4>
-<h4><br/>程式</h4>
-<br />籃板 << <a href='籃板.html'>Previous</a> <a href='機械轉盤計分器.html'>Next</a> >> 機械轉盤計分器</div>
+    <div id="tipue_search_content">籃框程式 << <a href='籃框程式.html'>Previous</a> <a href='機械轉盤計分器.html'>Next</a> >> 機械轉盤計分器<br /><h1>足球門程式</h1>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">function sysCall_init()
+    wheelJoint = sim.getObjectHandle('/joint1g')
+    door1 = sim.getObject('/Cuboid') 
+    ball1 = sim.getObject('/ball1')
+    ball2 = sim.getObject('/ball2')
+    ball3 = sim.getObject('/ball3')
+    ball4 = sim.getObject('/ball4')
+    ball5 = sim.getObject('/ball5')
+    ball6 = sim.getObject('/ball6')
+    ball7 = sim.getObject('/ball7')
+    ball8 = sim.getObject('/ball8')
+    ball9 = sim.getObject('/ball9')
+    ball10 = sim.getObject('/ball10')
+
+end
+
+function sysCall_actuation()
+    collision1= sim.checkCollision(ball1,door1)
+    collision2= sim.checkCollision(ball2,door1)
+    collision3= sim.checkCollision(ball3,door1)
+    collision4= sim.checkCollision(ball4,door1)
+    collision5= sim.checkCollision(ball5,door1)
+    collision6= sim.checkCollision(ball6,door1)
+    collision7= sim.checkCollision(ball7,door1)
+    collision8= sim.checkCollision(ball8,door1)
+    collision9= sim.checkCollision(ball9,door1)
+    collision10= sim.checkCollision(ball10,door1)
+    if ( collision1 &gt; 0) then
+        sim.setObjectPosition(ball1, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision2 &gt; 0) then
+        sim.setObjectPosition(ball2, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision3 &gt; 0) then
+        sim.setObjectPosition(ball3, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision4 &gt; 0) then
+        sim.setObjectPosition(ball4, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision5 &gt; 0) then
+        sim.setObjectPosition(ball5, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision6 &gt; 0) then
+        sim.setObjectPosition(ball6, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision7 &gt; 0) then
+        sim.setObjectPosition(ball7, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision8 &gt; 0) then
+        sim.setObjectPosition(ball8, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision9 &gt; 0) then
+        sim.setObjectPosition(ball9, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+    else if ( collision10 &gt; 0) then
+        sim.setObjectPosition(ball10, -1, {0,0,0.25})
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+             end
+            end
+           end
+          end
+         end
+        end
+      end
+     end
+    end  
+  end
+end</pre>
+<p></p>
+<br />籃框程式 << <a href='籃框程式.html'>Previous</a> <a href='機械轉盤計分器.html'>Next</a> >> 機械轉盤計分器</div>
         
     <!-- footer -->
       <div class="container">
