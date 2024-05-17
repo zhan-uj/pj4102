@@ -131,7 +131,7 @@ img.add_border {
                             <li><a href="./../blog/index.html">blog</a></li>
                         </ul>
                       </li>
-                     <li><a href='About.html'>About</a><li class='has-children'><a href='遊戲設計與改版.html'>遊戲設計與改版</a><ul class='dropdown'><li class='has-children'><a href='機器人.html'>機器人</a><ul class='dropdown'><li><a href='圖檔-1.html'>圖檔-1</a><li><a href='程式-1.html'>程式-1</a></li></ul><li class='has-children'><a href='球場.html'>球場</a><ul class='dropdown'><li><a href='籃框程式.html'>籃框程式</a><li><a href='足球門程式.html'>足球門程式</a></li></ul><li class='has-children'><a href='機械轉盤計分器.html'>機械轉盤計分器</a><ul class='dropdown'><li><a href='圖檔-2.html'>圖檔-2</a><li><a href='Arduino.html'>Arduino</a></li></ul><li class='has-children'><a href='電子計時器.html'>電子計時器</a><ul class='dropdown'><li><a href='程式-2.html'>程式-2</a></li></li></ul></ul><li class='has-children'><a href='協同設定.html'>協同設定</a><ul class='dropdown'><li><a href='遊戲連線說明.html'>遊戲連線說明</a><li><a href='倉儲維護.html'>倉儲維護</a></li></ul><li class='has-children'><a href='References.html'>References</a><ul class='dropdown'><li><a href='Score_counter.html'>Score_counter</a></li></ul><li class='has-children'><a href='最終成品展示.html'>最終成品展示</a><ul class='dropdown'><li><a href='影片展示.html'>影片展示</a><li><a href='檔案.html'>檔案</a></li></ul><li><a href='Brython.html'>Brython</a></li>
+                     <li><a href='About.html'>About</a><li class='has-children'><a href='遊戲設計與改版.html'>遊戲設計與改版</a><ul class='dropdown'><li class='has-children'><a href='機器人.html'>機器人</a><ul class='dropdown'><li><a href='圖檔-1.html'>圖檔-1</a><li><a href='程式-1.html'>程式-1</a></li></ul><li class='has-children'><a href='球場.html'>球場</a><ul class='dropdown'><li><a href='籃框程式.html'>籃框程式</a><li><a href='足球門程式.html'>足球門程式</a></li></ul><li class='has-children'><a href='機械轉盤計分器.html'>機械轉盤計分器</a><ul class='dropdown'><li><a href='圖檔-2.html'>圖檔-2</a><li><a href='3D列印之實體計分器.html'>3D列印之實體計分器</a><li><a href='Arduino.html'>Arduino</a></li></ul><li class='has-children'><a href='電子計時器.html'>電子計時器</a><ul class='dropdown'><li><a href='程式-2.html'>程式-2</a></li></li></ul></ul><li class='has-children'><a href='協同設定.html'>協同設定</a><ul class='dropdown'><li><a href='遊戲連線說明.html'>遊戲連線說明</a><li><a href='倉儲維護.html'>倉儲維護</a></li></ul><li class='has-children'><a href='最終成品展示.html'>最終成品展示</a><ul class='dropdown'><li><a href='影片展示.html'>影片展示</a><li><a href='檔案.html'>檔案</a></li></ul><li class='has-children'><a href='References.html'>References</a><ul class='dropdown'><li><a href='Score_counter.html'>Score_counter</a></li></ul><li><a href='Brython.html'>Brython</a></li>
                       </ul>
                 </nav>
               </div>
@@ -143,6 +143,10 @@ img.add_border {
           
         </header>
     <div id="tipue_search_content">程式-1 << <a href='程式-1.html'>Previous</a> <a href='籃框程式.html'>Next</a> >> 籃框程式<br /><h1>球場</h1>
+<p>在開始我們利用sensor當作得分感測器，當sensor作動時，會將球重製回初始位置。但由於場上同時有10顆球，僅需將得分之求重製，而sensor卻無法得知得分之球，所以<span>sensor作動時便</span>會同時將所有球<span>重製回初始位置，此法不通。</span></p>
+<p><span>改良後在足球門和籃框裡加入碰撞塊，並關閉其可見性以免阻擋視線，當球觸碰到碰撞塊後，便僅會將得分之球重製回初始位置。</span></p>
+<p><span>進足球門得1分(計分器旋轉36度)</span></p>
+<p><span>進籃框得5分(計分器旋轉180度)</span></p>
 <p><img alt="" height="253" src="./../images/4.png" width="700"/></p>
 <p><span>場地: 長 4m x 寬 2.5m, 外圍以足夠高度之隱形柵欄區隔</span></p>
 <p>競技球: 白色, 直徑 0.1m, 重量 0.5kg</p>
