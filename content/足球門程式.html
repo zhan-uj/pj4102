@@ -143,6 +143,108 @@ img.add_border {
           
         </header>
     <div id="tipue_search_content">籃框程式 << <a href='籃框程式.html'>Previous</a> <a href='機械轉盤計分器.html'>Next</a> >> 機械轉盤計分器<br /><h1>足球門程式</h1>
+<p>第一版</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">function sysCall_init()
+    score = 0
+    wheelJoint = sim.getObjectHandle('/joint1g')
+    robot = {
+        sim.getObjectHandle('/basic'),
+    }
+    initialPos = {
+        {-1.050, -0.77134, 0.21},
+        {-1.050, -0.27134, 0.21},
+        {-1.050, 0.22867, 0.21},
+        {-1.050, 0.62866, 0.21},
+    }
+    initialOri = {
+        {90, 90, 0},
+    }
+
+end
+
+sensor = sim.getObject('./sensor')
+initialPosBall = sim.getObjectPosition(sensor, -1)
+ball = sim.getObject('/ball')
+
+function sysCall_actuation()
+    result = sim.readProximitySensor(sensor)
+    if (result &gt; 0) then
+        score = score + 1
+        sim.setObjectPosition(ball, -1, {0,0,0.25})
+        
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+        
+        for i = 1, 8 do
+            sim.setObjectPosition(robot[i], -1, initialPos[i])
+            sim.setObjectOrientation(robot[i], -1, initialOri[i])
+        end
+end
+
+function sysCall_cleanup()
+    sim.setShapeColor(goalHandle, nil, sim.colorcomponent_ambient_diffuse,{0, 0, 0})</pre>
+<p>第二版</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">function sysCall_init()
+    score = 0
+    wheelJoint = sim.getObjectHandle('/joint1g')
+    robot = {
+        sim.getObjectHandle('/basic'),
+    }
+    initialPos = {
+        {-1.050, -0.77134, 0.21},
+        {-1.050, -0.27134, 0.21},
+        {-1.050, 0.22867, 0.21},
+        {-1.050, 0.62866, 0.21},
+    }
+    initialOri = {
+        {90, 90, 0},
+    }
+
+    sensor1 = sim.getObject('/sensor1') -- 第一个传感器
+    sensor2 = sim.getObject('/sensor2') -- 第二个传感器
+
+    ball1 = sim.getObject('/ball1')
+    ball2 = sim.getObject('/ball2')
+end
+
+function sysCall_actuation()
+    result1 = sim.readProximitySensor(sensor1)
+    result2 = sim.readProximitySensor(sensor2)
+    
+    if (result1 &gt; 0 or result2 &gt; 0) then
+        score = score + 1
+        sim.setObjectPosition(ball1, -1, {0,0,0.25})
+        sim.setObjectPosition(ball2, -1, {0,10,0.25})
+        
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+        
+
+        -- Rotate the wheel joint by 36 degrees
+        local currentAngle = sim.getJointPosition(wheelJoint)
+        local targetAngle = currentAngle + math.rad(-36)
+        sim.setJointTargetPosition(wheelJoint, targetAngle)
+        
+        for i = 1, 8 do
+
+        end
+        
+        goalEffectEnabled = true
+        lastGoalPlayer = result1 or result2
+        flashingState = false
+        flashingTimer = 0
+ end
+    
+
+function sysCall_cleanup()
+    sim.setShapeColor(goalHandle, nil, sim.colorcomponent_ambient_diffuse,{0, 0, 0})
+end
+</pre>
+<p>最終版</p>
 <pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">function sysCall_init()
     wheelJoint = sim.getObjectHandle('/joint1g')
     door1 = sim.getObject('/Cuboid') 
