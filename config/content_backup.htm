@@ -687,6 +687,88 @@ end</pre>
 <p>以 SolidWorks 設計繪圖: <a href="/downloads/scoreboard_solidworks_cd2023_pj3ag4.7z">scoreboard_solidworks_cd2023_pj3ag4.7z</a> (由 <a href="https://github.com/mdecd2023/2a3-pj3ag4/tree/main/downloads">cd2023 pj3 2a 第四組</a>完成設計繪圖)</p>
 <p>本專題將修改設計後納入步進馬達控制轉角, 並利用 Python 程式與 CoppeliaSim 場景伺服器賽局計分器同步作動.</p>
 <p></p>
+<h1>Test</h1>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from zmqRemoteApi_IPv6 import RemoteAPIClient
+import keyboard
+
+client = RemoteAPIClient('localhost', 23000)
+
+print('Program started')
+sim = client.getObject('sim')
+sim.startSimulation()
+print('Simulation started')
+
+def setWheelMotion(leftSpeed, rightSpeed, up1, up2, up3):
+    # Set target velocity for each wheel
+    frontLeftWheel = sim.getObject('/frontLeftJoint')
+    frontRightWheel = sim.getObject('/frontRightJoint')
+    rearLeftWheel = sim.getObject('/rearLeftJoint')
+    rearRightWheel = sim.getObject('/rearRightJoint')
+    upanddown1 = sim.getObject('/upanddown1')
+    upanddown2 = sim.getObject('/upanddown2')
+    upanddown3 = sim.getObject('/upanddown3')
+    sim.setJointTargetVelocity(frontLeftWheel, leftSpeed)
+    sim.setJointTargetVelocity(frontRightWheel, rightSpeed)
+    sim.setJointTargetVelocity(rearLeftWheel, leftSpeed)
+    sim.setJointTargetVelocity(rearRightWheel, rightSpeed)
+    sim.setJointTargetVelocity(upanddown1,up1)
+    sim.setJointTargetVelocity(upanddown2,up2) 
+    sim.setJointTargetVelocity(upanddown3,up3)
+# Initialize motion variables
+leftSpeed = 0
+rightSpeed = 0
+up1 = 0
+up2 = 0
+up3 = 0
+# Main loop
+while True:
+    # Check keyboard input
+    if keyboard.is_pressed('w'):
+        leftSpeed = 10  # Forward motion
+        rightSpeed = 10  # Forward motion
+    elif keyboard.is_pressed('s'):
+        leftSpeed = -10  # Backward motion
+        rightSpeed = -10  # Backward motion
+    else:
+        leftSpeed = 0
+        rightSpeed = 0
+
+    if keyboard.is_pressed('a'):
+        leftSpeed -= 5  # Left turn
+        rightSpeed += 5  # Left turn
+    elif keyboard.is_pressed('d'):
+        leftSpeed += 5  # Right turn
+        rightSpeed -= 5  # Right turn
+        
+    if keyboard.is_pressed('1'):
+        up1 = 1  # Forward motion
+    elif keyboard.is_pressed('3'):
+        up1 = -1  # Backward motion
+    else:
+        up1 = 0
+        
+    if keyboard.is_pressed('4'):
+        up2 = 1  # Forward motion
+    elif keyboard.is_pressed('6'):
+        up2 = -1  # Backward motion
+    else:
+        up2 = 0
+        
+    if keyboard.is_pressed('7'):
+        up3 = 1  # Forward motion
+    elif keyboard.is_pressed('9'):
+        up3 = -1  # Backward motion
+    else:
+        up3 = 0
+        
+    if keyboard.is_pressed('q'):
+        break  # Quit
+
+    # Set motion for all wheels
+    setWheelMotion(leftSpeed, rightSpeed, up1, up2, up3)
+
+# Stop the simulation
+sim.stopSimulation()</pre>
 <h1>Brython</h1>
 <p>cmsite: wcms use <a href="https://github.com/mdecycu/cmsimde">https://github.com/mdecycu/cmsimde</a> as submodule</p>
 <p><a href="https://en.wikipedia.org/wiki/Python_(programming_language)">https://en.wikipedia.org/wiki/Python_(programming_language)</a></p>
@@ -969,6 +1051,3 @@ doc["aitetris"].bind("click", aitetris.do)
 <div id="brython_div2"></div>
 <!-- editor2 結束 --><hr/>
 <p></p>
-<div id="gtx-trans" style="position: absolute; left: 135px; top: 1388.58px;">
-<div class="gtx-trans-icon"></div>
-</div>
