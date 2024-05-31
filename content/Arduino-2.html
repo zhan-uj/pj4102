@@ -142,11 +142,62 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">機器人 << <a href='機器人.html'>Previous</a> <a href='程式-1.html'>Next</a> >> 程式-1<br /><h1>圖檔-1</h1>
-<p><a href="./../downloads/robot1.ttt">robot第一版.ttt</a></p>
-<p><a href="./../downloads/robot2.ttt">robot第二版.ttt</a></p>
-<p><a href="./../downloads/robot part.zip">robot part.zip</a></p>
-<br />機器人 << <a href='機器人.html'>Previous</a> <a href='程式-1.html'>Next</a> >> 程式-1</div>
+    <div id="tipue_search_content">RemoteAPI << <a href='RemoteAPI.html'>Previous</a> <a href='倉儲維護.html'>Next</a> >> 倉儲維護<br /><h1>Arduino-2</h1>
+<p><strong></strong></p>
+<p>這段程式用於控制步進馬達以及接收來自串口的指令以執行不同的動作。</p>
+<p></p>
+<pre class="brush:cpp;auto-links:false;toolbar:false" contenteditable="false">#include &lt;Stepper.h&gt; 
+
+Stepper stepper(100, 11, 10, 9, 8); // 初始化步進馬達，步數為100，使用引腳11, 10, 9, 8
+#define but1 2 // 定義按鈕接在引腳2上
+
+long currentPosition = 0; // 變數來記錄當前位置
+
+void setup() 
+{
+  pinMode(but1, INPUT);  // 設置引腳2為輸入
+  stepper.setSpeed(80);  // 設置馬達速度為100 RPM
+  Serial.begin(115200);   // 初始化串口通信，波特率設置為115200
+}
+
+void loop() 
+{
+  // 檢查按鈕是否被按下
+  if (digitalRead(but1) == HIGH)
+  {
+    stepper.step(50); // 正轉200步（36度）
+    currentPosition += 200; // 更新當前位置
+    delay(500);
+  }
+
+  // 檢查是否有來自串口的數據
+  if (Serial.available() &gt; 0)
+  {
+    char received = Serial.read();  // 讀取一個字節的數據
+    if (received == '1')
+    {
+      stepper.step(200); // 收到信號'1'後正轉200步（36度）
+      currentPosition += 200; // 更新當前位置
+      delay(500);
+    }
+    if (received == '2')
+    {
+      stepper.step(1000); // 收到信號'2'後正轉1000步（180度）
+      currentPosition += 1000; // 更新當前位置
+      delay(500);
+    }
+    if (received == '0')
+    {
+      // 計算回到初始位置所需的步數
+      long stepsToReturn = -currentPosition;
+      stepper.step(stepsToReturn); // 移動回初始位置
+      currentPosition = 0; // 重置當前位置
+      delay(500);
+    }
+  }
+}
+</pre>
+<br />RemoteAPI << <a href='RemoteAPI.html'>Previous</a> <a href='倉儲維護.html'>Next</a> >> 倉儲維護</div>
         
     <!-- footer -->
       <div class="container">

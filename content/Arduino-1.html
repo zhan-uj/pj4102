@@ -142,11 +142,42 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">機器人 << <a href='機器人.html'>Previous</a> <a href='程式-1.html'>Next</a> >> 程式-1<br /><h1>圖檔-1</h1>
-<p><a href="./../downloads/robot1.ttt">robot第一版.ttt</a></p>
-<p><a href="./../downloads/robot2.ttt">robot第二版.ttt</a></p>
-<p><a href="./../downloads/robot part.zip">robot part.zip</a></p>
-<br />機器人 << <a href='機器人.html'>Previous</a> <a href='程式-1.html'>Next</a> >> 程式-1</div>
+    <div id="tipue_search_content">3D列印之實體計分器 << <a href='3D列印之實體計分器.html'>Previous</a> <a href='電子計時器.html'>Next</a> >> 電子計時器<br /><h1>Arduino-1</h1>
+<p>為了實現虛實整合，我們理想狀況是利用Arduino配合步進馬達來驅動實體機械轉盤計分器。由於不確定此方法的可行性，我們進行了第一版測試，先使用實體按鈕來觸發轉動，每按一次按鈕，馬達旋轉36度，並測試是否能成功帶動轉盤。</p>
+<ol>
+<li>先將步進馬達與解碼器配合</li>
+</ol>
+<p><img alt="" height="150" src="./../images/5.8.jpg" width="265"/> <img alt="" height="151" src="./../images/5.6.jpg" width="174"/></p>
+<p>      2.再將步進馬達解碼器與按鈕如下圖接至arduino開發板之對應腳位。</p>
+<p><img alt="" height="330" src="./../images/0601.png" width="233"/>  <img alt="" height="326" src="./../images/5.15.jpg" width="245"/></p>
+<p></p>
+<pre class="brush:cpp;auto-links:false;toolbar:false" contenteditable="false">#include &lt;Stepper.h&gt; 
+
+Stepper stepper(100, 11, 10, 9, 8); // 初始化步進馬達，步數為100，使用引腳11, 10, 9, 8
+#define but1 2 // 定義按鈕接在引腳2上
+
+long currentPosition = 0; // 變數來記錄當前位置
+
+void setup() 
+{
+  pinMode(but1, INPUT);  // 設置引腳2為輸入
+  stepper.setSpeed(80);  // 設置馬達速度為100 RPM
+  Serial.begin(115200);   // 初始化串口通信，波特率設置為115200
+}
+
+void loop() 
+{
+  // 檢查按鈕是否被按下
+  if (digitalRead(but1) == HIGH)
+  {
+    stepper.step(50); // 正轉200步（36度）
+    currentPosition += 200; // 更新當前位置
+    delay(500);
+  }</pre>
+<p>經過這次測試，確定了步進馬達帶動轉盤並正確旋轉36度此方法的可行性。並以此為基礎來實現虛擬場景與實體計分器之整合。</p>
+<p></p>
+<p></p>
+<br />3D列印之實體計分器 << <a href='3D列印之實體計分器.html'>Previous</a> <a href='電子計時器.html'>Next</a> >> 電子計時器</div>
         
     <!-- footer -->
       <div class="container">

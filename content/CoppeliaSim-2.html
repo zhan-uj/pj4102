@@ -142,11 +142,84 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">機器人 << <a href='機器人.html'>Previous</a> <a href='程式-1.html'>Next</a> >> 程式-1<br /><h1>圖檔-1</h1>
-<p><a href="./../downloads/robot1.ttt">robot第一版.ttt</a></p>
-<p><a href="./../downloads/robot2.ttt">robot第二版.ttt</a></p>
-<p><a href="./../downloads/robot part.zip">robot part.zip</a></p>
-<br />機器人 << <a href='機器人.html'>Previous</a> <a href='程式-1.html'>Next</a> >> 程式-1</div>
+    <div id="tipue_search_content">程式聯動 << <a href='程式聯動.html'>Previous</a> <a href='RemoteAPI.html'>Next</a> >> RemoteAPI<br /><h1>CoppeliaSim-2</h1>
+<p>此程式主要透過碰撞塊當作感測器來觸發得分程式，並將分別的碰撞訊號送至RemoteAPI。</p>
+<p></p>
+<p>足球門之程式 </p>
+<p></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">balls = {}
+messageSent = false
+
+function sysCall_init()
+    wheelJoint = sim.getObjectHandle('/joint1g')
+    door1 = sim.getObject('/Cuboid') 
+    
+    for i = 1, 10 do
+        balls[i] = sim.getObject('/ball' .. i)
+    end
+end
+
+function sysCall_actuation()
+    for i = 1, 10 do
+        local collision = sim.checkCollision(balls[i], door1)
+        if collision &gt; 0 and not messageSent then
+            sim.setObjectPosition(balls[i], -1, {0,0,0.25})
+            -- Rotate the wheel joint by 36 degrees
+            local currentAngle = sim.getJointPosition(wheelJoint)
+            local targetAngle = currentAngle + math.rad(-36)
+            sim.setJointTargetPosition(wheelJoint, targetAngle)
+            local startTime = os.clock()
+            while os.clock() - startTime &lt; 0.01 do
+            end
+            sim.setStringSignal("message", "1")  -- ?? "5" ??
+            messageSent = true  -- ??????????????
+            return
+        end
+    end
+    -- ????????? messageSent ? false
+    if messageSent then
+        sim.setStringSignal("message", "5") 
+        messageSent = false
+    end
+end</pre>
+<h5><span></span></h5>
+<h5><span>籃框之程式</span></h5>
+<p><span></span></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">balls = {}
+messageSent = false
+
+function sysCall_init()
+    wheelJoint = sim.getObjectHandle('/joint1g')
+    rim1 = sim.getObject('/Cylinder1') 
+    
+    for i = 1, 10 do
+        balls[i] = sim.getObject('/ball' .. i)
+    end
+end
+
+function sysCall_actuation()
+    for i = 1, 10 do
+        local collision = sim.checkCollision(balls[i], rim1)
+        if collision &gt; 0 and not messageSent then
+            sim.setObjectPosition(balls[i], -1, {0,0,0.25})
+            -- Rotate the wheel joint by 36 degrees
+            local currentAngle = sim.getJointPosition(wheelJoint)
+            local targetAngle = currentAngle + math.rad(-179.999)
+            sim.setJointTargetPosition(wheelJoint, targetAngle)
+            local startTime = os.clock()
+            while os.clock() - startTime &lt; 0.1 do
+            end
+            sim.setStringSignal("message", "2") 
+            messageSent = true
+            return 
+        end
+    end
+    if messageSent then
+        sim.setStringSignal("message", "5") 
+        messageSent = false
+    end
+end</pre>
+<br />程式聯動 << <a href='程式聯動.html'>Previous</a> <a href='RemoteAPI.html'>Next</a> >> RemoteAPI</div>
         
     <!-- footer -->
       <div class="container">

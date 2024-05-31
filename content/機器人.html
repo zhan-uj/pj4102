@@ -131,7 +131,7 @@ img.add_border {
                             <li><a href="./../blog/index.html">blog</a></li>
                         </ul>
                       </li>
-                     <li><a href='About.html'>About</a><li class='has-children'><a href='遊戲設計與改版.html'>遊戲設計與改版</a><ul class='dropdown'><li><a href='CoppeliaSim.html'>CoppeliaSim</a><li class='has-children'><a href='機器人.html'>機器人</a><ul class='dropdown'><li><a href='圖檔-1.html'>圖檔-1</a><li><a href='程式-1.html'>程式-1</a></li></ul><li class='has-children'><a href='球場.html'>球場</a><ul class='dropdown'><li><a href='籃框程式.html'>籃框程式</a><li><a href='足球門程式.html'>足球門程式</a></li></ul><li class='has-children'><a href='機械轉盤計分器.html'>機械轉盤計分器</a><ul class='dropdown'><li><a href='圖檔-2.html'>圖檔-2</a><li><a href='3D列印之實體計分器.html'>3D列印之實體計分器</a><li><a href='Arduino.html'>Arduino</a></li></ul><li class='has-children'><a href='電子計時器.html'>電子計時器</a><ul class='dropdown'><li><a href='程式-2.html'>程式-2</a></li></li></ul></ul><li class='has-children'><a href='協同設定.html'>協同設定</a><ul class='dropdown'><li><a href='遊戲連線說明.html'>遊戲連線說明</a><li><a href='倉儲維護.html'>倉儲維護</a></li></ul><li class='has-children'><a href='最終成品展示.html'>最終成品展示</a><ul class='dropdown'><li><a href='影片展示.html'>影片展示</a><li><a href='檔案.html'>檔案</a><li><a href='專題論文.html'>專題論文</a></li></ul><li class='has-children'><a href='References.html'>References</a><ul class='dropdown'><li><a href='Score_counter.html'>Score_counter</a></li></ul><li><a href='Brython.html'>Brython</a></li>
+                     <li><a href='About.html'>About</a><li class='has-children'><a href='專題摘要.html'>專題摘要</a><ul class='dropdown'><li><a href='CoppeliaSim-1.html'>CoppeliaSim-1</a><li class='has-children'><a href='機器人.html'>機器人</a><ul class='dropdown'><li><a href='圖檔-1.html'>圖檔-1</a><li><a href='程式-1.html'>程式-1</a></li></ul><li class='has-children'><a href='球場.html'>球場</a><ul class='dropdown'><li><a href='籃框程式.html'>籃框程式</a><li><a href='足球門程式.html'>足球門程式</a></li></ul><li class='has-children'><a href='機械轉盤計分器.html'>機械轉盤計分器</a><ul class='dropdown'><li><a href='圖檔-2.html'>圖檔-2</a><li><a href='3D列印之實體計分器.html'>3D列印之實體計分器</a><li><a href='Arduino-1.html'>Arduino-1</a></li></ul><li class='has-children'><a href='電子計時器.html'>電子計時器</a><ul class='dropdown'><li><a href='程式-2.html'>程式-2</a></li></li></ul></ul><li class='has-children'><a href='協同設定.html'>協同設定</a><ul class='dropdown'><li><a href='遊戲連線說明.html'>遊戲連線說明</a><li class='has-children'><a href='程式聯動.html'>程式聯動</a><ul class='dropdown'><li><a href='CoppeliaSim-2.html'>CoppeliaSim-2</a><li><a href='RemoteAPI.html'>RemoteAPI</a><li><a href='Arduino-2.html'>Arduino-2</a></li></ul><li><a href='倉儲維護.html'>倉儲維護</a></li></ul><li class='has-children'><a href='最終成品展示.html'>最終成品展示</a><ul class='dropdown'><li><a href='影片展示.html'>影片展示</a><li><a href='檔案.html'>檔案</a><li><a href='專題論文.html'>專題論文</a></li></ul><li class='has-children'><a href='References.html'>References</a><ul class='dropdown'><li><a href='Score_counter.html'>Score_counter</a></li></ul><li><a href='Brython.html'>Brython</a></li>
                       </ul>
                 </nav>
               </div>
@@ -142,11 +142,13 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">CoppeliaSim << <a href='CoppeliaSim.html'>Previous</a> <a href='圖檔-1.html'>Next</a> >> 圖檔-1<br /><h1>機器人</h1>
+    <div id="tipue_search_content">CoppeliaSim-1 << <a href='CoppeliaSim-1.html'>Previous</a> <a href='圖檔-1.html'>Next</a> >> 圖檔-1<br /><h1>機器人</h1>
 <p><em><strong>初代機器之設計</strong></em></p>
-<p>初代版本原本想利用我們所繪製的取球鏟子將球鏟入其中，並利用鍵盤J、K按鈕來控制Joint進行鏟子之順時與逆時轉動，去帶動球，往切線方向射出，並進行投籃動作。</p>
+<p>第一版的機器人設計中我們先是以取球機構為重點下去進行設計，在討論過後決定做出一個類似鏟子的零件來取球，過程中不斷的去調整他的形狀及尺寸，只為了能夠更好的將球抓取及不讓它輕易滑出，經過數次的調整後，取球的方面解決了。</p>
+<p>但另外一個重點在於投籃，我們把原本的取球機構加上兩個手臂想利用向上拋的模式達到投籃的效果。但在測試後發現由於球本身的重量導致我們無法順利地將手臂抬起。</p>
+<p>在與教授討論過後得知第一版的設計主要的問題在於穩定性和精確性不足，而且也無法改調整拋球的力道和角度，所以第一版的設計可行性微乎其微。 於是我們在第一版的基礎下去改良做出了第二版的機器人。</p>
 <p><img alt="" height="410" src="./../images/r1.png" width="672"/></p>
-<p>在後續測試與教授討論後，發現這種鏟子的設計能讓球順利投進籃框的機率微乎其微，所以在後來組員們進行不斷的討論與改良取球機構，而製作出下一個版本的取球機構。</p>
+<p></p>
 <p><em><strong></strong></em></p>
 <p><em><strong>最終版本之機器人</strong></em></p>
 <p><img alt="" height="432" src="./../images/r2.png" width="668"/></p>
@@ -155,7 +157,7 @@ img.add_border {
 <p>理想操作是將球鏟入後，操控兩支架，將球舉至高於籃框之高度，接近籃框後，操控取球機構向下傾斜，球便會滾入籃框並得分。</p>
 <p></p>
 <p>(球員尺寸範圍: 長寬高各 0.2m, 重量 5kg)</p>
-<br />CoppeliaSim << <a href='CoppeliaSim.html'>Previous</a> <a href='圖檔-1.html'>Next</a> >> 圖檔-1</div>
+<br />CoppeliaSim-1 << <a href='CoppeliaSim-1.html'>Previous</a> <a href='圖檔-1.html'>Next</a> >> 圖檔-1</div>
         
     <!-- footer -->
       <div class="container">

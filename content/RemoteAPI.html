@@ -142,11 +142,45 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">機器人 << <a href='機器人.html'>Previous</a> <a href='程式-1.html'>Next</a> >> 程式-1<br /><h1>圖檔-1</h1>
-<p><a href="./../downloads/robot1.ttt">robot第一版.ttt</a></p>
-<p><a href="./../downloads/robot2.ttt">robot第二版.ttt</a></p>
-<p><a href="./../downloads/robot part.zip">robot part.zip</a></p>
-<br />機器人 << <a href='機器人.html'>Previous</a> <a href='程式-1.html'>Next</a> >> 程式-1</div>
+    <div id="tipue_search_content">CoppeliaSim-2 << <a href='CoppeliaSim-2.html'>Previous</a> <a href='Arduino-2.html'>Next</a> >> Arduino-2<br /><h1>RemoteAPI</h1>
+<p><span>此段程式用於接收來自CoppeliaSim模擬環境的訊號，並根據收到的訊號向連接的Arduino發送不同的指令。</span></p>
+<p></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from zmqRemoteApi_IPv6 import RemoteAPIClient
+import serial
+import time
+
+client = RemoteAPIClient('localhost', 23000)
+arduino = serial.Serial(port='COM5', baudrate=115200, timeout=.1)
+print('Program started')
+
+sim = client.getObject('sim')
+sim.startSimulation()
+print('Simulation started')
+
+def write_read(x):
+    arduino.write(bytes(x, 'utf-8'))
+    time.sleep(0.05)
+    data = arduino.readline()
+    return data
+while True:
+    message = sim.getStringSignal("message")
+    print(message)
+    if message is not None:
+        try:
+            message_int = int(message)
+            if message_int == 1:
+                print("Rotation event detected! Sending signal '1' to Arduino.")
+                response = write_read('1') 
+            if message_int == 2:
+                print("Rotation event detected! Sending signal '1' to Arduino.")
+                response = write_read('2')  
+        except ValueError:
+            print("Invalid message received from simulation.")
+    else:
+        print("Failed to get message from simulation.")
+</pre>
+<p></p>
+<br />CoppeliaSim-2 << <a href='CoppeliaSim-2.html'>Previous</a> <a href='Arduino-2.html'>Next</a> >> Arduino-2</div>
         
     <!-- footer -->
       <div class="container">
