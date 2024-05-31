@@ -579,11 +579,11 @@ end</pre>
 <h3>圖檔</h3>
 <p><a href="/downloads/機械記分板與零件.zip">機械記分板與零件.zip</a></p>
 <h3>3D列印之實體計分器</h3>
-<p>                           個位數轉盤                                                   十位數轉盤</p>
+<p>                           個位數轉盤                             十位數轉盤</p>
 <p> <img alt="" height="254" src="/images/5.2.jpg" width="248"/> <img alt="" height="252" src="/images/5.3.jpg" width="241"/> </p>
-<p>                            連接齒輪                                                            支架</p>
+<p>                            連接齒輪                                       支架</p>
 <p><img alt="" height="272" src="/images/5.4.jpg" width="272"/> <img alt="" height="270" src="/images/5.5.jpg" width="244"/></p>
-<p>                                                     機械轉盤計分器實體</p>
+<p>                                        機械轉盤計分器實體</p>
 <p><img alt="" height="590" src="/images/5.1.jpg" width="502"/></p>
 <p></p>
 <h3>Arduino</h3>
@@ -591,10 +591,10 @@ end</pre>
 <ol>
 <li>先將步進馬達與解碼器配合</li>
 </ol>
-<p><img alt="" height="150" src="/images/5.8.jpg" width="265"/> <img alt="" height="151" src="/images/5.6.jpg" width="174"/></p>
+<p><img alt="" height="173" src="/images/5.8.jpg" width="306"/> <img alt="" height="170" src="/images/5.6.jpg" width="196"/></p>
 <p>      2.再將步進馬達解碼器與按鈕如下圖接至arduino開發板之對應腳位。</p>
 <p><img alt="" height="330" src="/images/0601.png" width="233"/>  <img alt="" height="326" src="/images/5.15.jpg" width="245"/></p>
-<p></p>
+<p>步進馬達第一版測試</p>
 <pre class="brush:cpp;auto-links:false;toolbar:false" contenteditable="false">#include &lt;Stepper.h&gt; 
 
 Stepper stepper(100, 11, 10, 9, 8); // 初始化步進馬達，步數為100，使用引腳11, 10, 9, 8
@@ -701,12 +701,14 @@ end</pre>
 <p><strong>5.將Localhost改為組長的IPV6位址</strong></p>
 <p><img alt="" height="724" src="/images/螢幕擷取畫面 2024-05-19 222640.png" width="557"/><img alt="" height="726" src="/images/螢幕擷取畫面 2024-05-10 025640.png" width="560"/></p>
 <p><strong>6.在瀏覽器輸入http://[組長IP]:23020  即可觀看場景並連線對戰</strong></p>
-<img alt="" height="410" src="/images/螢幕擷取畫面 2024-05-10 025737.png" width="800"/>
+<p><img alt="" height="410" src="/images/螢幕擷取畫面 2024-05-10 025737.png" width="800"/></p>
 <h2><strong>程式聯動</strong></h2>
 <p>在CoppeliaSim裡，我們在籃框與足球門中加入了碰撞塊當作感測器，發生碰撞時就會觸發得分程式。在開始模擬時CoppeliaSim會持續向RemoteAPI發送碰撞訊號，當碰撞訊號發生改變時，RemoteAPI會透過連接埠(COM5)向Arduino發送1或2的訊號，在Arduino接收到訊號1時，馬達便會帶動實體計分器旋轉36度；收到訊號2時，旋轉180度。</p>
 <h3><strong>CoppeliaSim</strong></h3>
 <p>此程式主要透過碰撞塊當作感測器來觸發得分程式，並將分別的碰撞訊號送至RemoteAPI。</p>
-<p>足球門</p>
+<p></p>
+<p>足球門之程式 </p>
+<p></p>
 <pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">balls = {}
 messageSent = false
 
@@ -731,16 +733,146 @@ function sysCall_actuation()
             local startTime = os.clock()
             while os.clock() - startTime &lt; 0.01 do
             end
-            sim.setStringSignal("message", "1")
-            messageSent = true  
+            sim.setStringSignal("message", "1")  -- ?? "5" ??
+            messageSent = true  -- ??????????????
             return
         end
     end
+    -- ????????? messageSent ? false
     if messageSent then
-        sim.setStringSignal("message", "0") 
+        sim.setStringSignal("message", "5") 
         messageSent = false
     end
+end</pre>
+<h5><span></span></h5>
+<h5><span>籃框之程式</span></h5>
+<p><span></span></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">balls = {}
+messageSent = false
+
+function sysCall_init()
+    wheelJoint = sim.getObjectHandle('/joint1g')
+    rim1 = sim.getObject('/Cylinder1') 
+    
+    for i = 1, 10 do
+        balls[i] = sim.getObject('/ball' .. i)
+    end
 end
+
+function sysCall_actuation()
+    for i = 1, 10 do
+        local collision = sim.checkCollision(balls[i], rim1)
+        if collision &gt; 0 and not messageSent then
+            sim.setObjectPosition(balls[i], -1, {0,0,0.25})
+            -- Rotate the wheel joint by 36 degrees
+            local currentAngle = sim.getJointPosition(wheelJoint)
+            local targetAngle = currentAngle + math.rad(-179.999)
+            sim.setJointTargetPosition(wheelJoint, targetAngle)
+            local startTime = os.clock()
+            while os.clock() - startTime &lt; 0.1 do
+            end
+            sim.setStringSignal("message", "2") 
+            messageSent = true
+            return 
+        end
+    end
+    if messageSent then
+        sim.setStringSignal("message", "5") 
+        messageSent = false
+    end
+end</pre>
+<h3><span><strong>RemoteAPI</strong><br/><br/></span></h3>
+<p><span>此段程式用於接收來自CoppeliaSim模擬環境的訊號，並根據收到的訊號向連接的Arduino發送不同的指令。</span></p>
+<p></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from zmqRemoteApi_IPv6 import RemoteAPIClient
+import serial
+import time
+
+client = RemoteAPIClient('localhost', 23000)
+arduino = serial.Serial(port='COM5', baudrate=115200, timeout=.1)
+print('Program started')
+
+sim = client.getObject('sim')
+sim.startSimulation()
+print('Simulation started')
+
+def write_read(x):
+    arduino.write(bytes(x, 'utf-8'))
+    time.sleep(0.05)
+    data = arduino.readline()
+    return data
+while True:
+    message = sim.getStringSignal("message")
+    print(message)
+    if message is not None:
+        try:
+            message_int = int(message)
+            if message_int == 1:
+                print("Rotation event detected! Sending signal '1' to Arduino.")
+                response = write_read('1') 
+            if message_int == 2:
+                print("Rotation event detected! Sending signal '1' to Arduino.")
+                response = write_read('2')  
+        except ValueError:
+            print("Invalid message received from simulation.")
+    else:
+        print("Failed to get message from simulation.")
+</pre>
+<p></p>
+<h3><strong>Arduino</strong></h3>
+<p><strong></strong></p>
+<p>這段程式用於控制步進馬達以及接收來自串口的指令以執行不同的動作。</p>
+<p></p>
+<pre class="brush:cpp;auto-links:false;toolbar:false" contenteditable="false">#include &lt;Stepper.h&gt; 
+
+Stepper stepper(100, 11, 10, 9, 8); // 初始化步進馬達，步數為100，使用引腳11, 10, 9, 8
+#define but1 2 // 定義按鈕接在引腳2上
+
+long currentPosition = 0; // 變數來記錄當前位置
+
+void setup() 
+{
+  pinMode(but1, INPUT);  // 設置引腳2為輸入
+  stepper.setSpeed(80);  // 設置馬達速度為100 RPM
+  Serial.begin(115200);   // 初始化串口通信，波特率設置為115200
+}
+
+void loop() 
+{
+  // 檢查按鈕是否被按下
+  if (digitalRead(but1) == HIGH)
+  {
+    stepper.step(50); // 正轉200步（36度）
+    currentPosition += 200; // 更新當前位置
+    delay(500);
+  }
+
+  // 檢查是否有來自串口的數據
+  if (Serial.available() &gt; 0)
+  {
+    char received = Serial.read();  // 讀取一個字節的數據
+    if (received == '1')
+    {
+      stepper.step(200); // 收到信號'1'後正轉200步（36度）
+      currentPosition += 200; // 更新當前位置
+      delay(500);
+    }
+    if (received == '2')
+    {
+      stepper.step(1000); // 收到信號'2'後正轉1000步（180度）
+      currentPosition += 1000; // 更新當前位置
+      delay(500);
+    }
+    if (received == '0')
+    {
+      // 計算回到初始位置所需的步數
+      long stepsToReturn = -currentPosition;
+      stepper.step(stepsToReturn); // 移動回初始位置
+      currentPosition = 0; // 重置當前位置
+      delay(500);
+    }
+  }
+}
 </pre>
 <h2>倉儲維護</h2>
 <ol>
@@ -755,13 +887,16 @@ end
 <li>利用<span> </span><a href="https://replit.com/">Replit</a><span> </span>中的 Version Control 功能, 將改版資料推向遠端倉儲</li>
 </ol>
 <h1>最終成品展示</h1>
-<h2>影片展示</h2>
 <p></p>
+<h2>影片展示</h2>
+<p><a href="https://youtu.be/KU4RMpo3IWc" title="機械記分板 虛實結合">機械記分板 虛實結合</a></p>
+<p><a href="https://youtu.be/h3e9VxaCeX8">機械記分板 虛實結合+機器人控制</a></p>
 <h2>檔案</h2>
 <p><a href="/downloads/操作程式.7z">操作程式.7z</a></p>
 <p><a href="/downloads/final0516.ttt">遊戲最終成品</a></p>
 <h2>專題論文</h2>
 <p><a href="/downloads/初版專題論文.zip">初版專題論文.zip</a></p>
+<p></p>
 <h1>References</h1>
 <p style="padding-left: 30px;"><a href="https://github.com/mdecd2024/test-ag1">https://github.com/mdecd2024/test-ag1</a></p>
 <p style="padding-left: 30px;"><a href="https://github.com/mdecd2023/2a3-pj3ag4">https://github.com/mdecd2023/2a3-pj3ag4</a></p>

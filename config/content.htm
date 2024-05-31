@@ -579,11 +579,11 @@ end</pre>
 <h3>圖檔</h3>
 <p><a href="/downloads/機械記分板與零件.zip">機械記分板與零件.zip</a></p>
 <h3>3D列印之實體計分器</h3>
-<p>                           個位數轉盤                                                   十位數轉盤</p>
+<p>                           個位數轉盤                             十位數轉盤</p>
 <p> <img alt="" height="254" src="/images/5.2.jpg" width="248"/> <img alt="" height="252" src="/images/5.3.jpg" width="241"/> </p>
-<p>                            連接齒輪                                                            支架</p>
+<p>                            連接齒輪                                       支架</p>
 <p><img alt="" height="272" src="/images/5.4.jpg" width="272"/> <img alt="" height="270" src="/images/5.5.jpg" width="244"/></p>
-<p>                                                     機械轉盤計分器實體</p>
+<p>                                        機械轉盤計分器實體</p>
 <p><img alt="" height="590" src="/images/5.1.jpg" width="502"/></p>
 <p></p>
 <h3>Arduino</h3>
@@ -591,10 +591,10 @@ end</pre>
 <ol>
 <li>先將步進馬達與解碼器配合</li>
 </ol>
-<p><img alt="" height="150" src="/images/5.8.jpg" width="265"/> <img alt="" height="151" src="/images/5.6.jpg" width="174"/></p>
+<p><img alt="" height="173" src="/images/5.8.jpg" width="306"/> <img alt="" height="170" src="/images/5.6.jpg" width="196"/></p>
 <p>      2.再將步進馬達解碼器與按鈕如下圖接至arduino開發板之對應腳位。</p>
 <p><img alt="" height="330" src="/images/0601.png" width="233"/>  <img alt="" height="326" src="/images/5.15.jpg" width="245"/></p>
-<p></p>
+<p>步進馬達第一版測試</p>
 <pre class="brush:cpp;auto-links:false;toolbar:false" contenteditable="false">#include &lt;Stepper.h&gt; 
 
 Stepper stepper(100, 11, 10, 9, 8); // 初始化步進馬達，步數為100，使用引腳11, 10, 9, 8
@@ -887,16 +887,28 @@ void loop()
 <li>利用<span> </span><a href="https://replit.com/">Replit</a><span> </span>中的 Version Control 功能, 將改版資料推向遠端倉儲</li>
 </ol>
 <h1>最終成品展示</h1>
-<h2>影片展示</h2>
 <p></p>
+<h2>影片展示</h2>
+<p><a href="https://youtu.be/KU4RMpo3IWc" title="機械記分板 虛實結合">機械記分板 虛實結合</a></p>
+<p><a href="https://youtu.be/h3e9VxaCeX8">機械記分板 虛實結合+機器人控制</a></p>
 <h2>檔案</h2>
 <p><a href="/downloads/操作程式.7z">操作程式.7z</a></p>
 <p><a href="/downloads/final0516.ttt">遊戲最終成品</a></p>
 <h2>專題論文</h2>
 <p><a href="/downloads/初版專題論文.zip">初版專題論文.zip</a></p>
+<p><a href="/downloads/專題 網際球賽機器人協同設計與模擬.zip">正式版專題.zip</a></p>
 <h1>References</h1>
-<p style="padding-left: 30px;"><a href="https://github.com/mdecd2024/test-ag1">https://github.com/mdecd2024/test-ag1</a></p>
-<p style="padding-left: 30px;"><a href="https://github.com/mdecd2023/2a3-pj3ag4">https://github.com/mdecd2023/2a3-pj3ag4</a></p>
+<ol>
+<li>        <a href="https://github.com/mdecd2024/test-ag1">https://github.com/mdecd2024/test-ag1</a></li>
+<li style="padding-left: 30px;"><a href="https://github.com/mdecd2023/2a3-pj3ag4">https://github.com/mdecd2023/2a3-pj3ag4</a></li>
+<li style="padding-left: 30px;"><a href="https://projecthub.arduino.cc/ansh2919/serial-communication-between-python-and-arduino-663756">https://projecthub.arduino.cc/ansh2919/serial-communication-between-python-and-arduino-663756</a></li>
+<li style="padding-left: 30px;"><a href="/2.	https:/manual.coppeliarobotics.com/en/regularApi/simGetStringSignal.htm">https://manual.coppeliarobotics.com/en/regularApi/simGetStringSignal.htm</a></li>
+<li>        <a href="/3.	https:/manual.coppeliarobotics.com/en/regularApi/simSetStringSignal.htm">https://manual.coppeliarobotics.com/en/regularApi/simSetStringSignal.htm</a></li>
+<li><span>       <a href="https://m.bilibili.com/video/BV1qH4y1Q7Wv?spm_id_from=333.788.recommend_more_video.9">https://m.bilibili.com/video/BV1qH4y1Q7Wv?spm_id_from=333.788.recommend_more_video.9</a></span></li>
+<li><span>       <a href="https://forum.coppeliarobotics.com/viewtopic.php?t=9533">https://forum.coppeliarobotics.com/viewtopic.php?t=9533</a></span></li>
+<li><span>       <a href="https://forum.arduino.cc/t/maze-solving-robot-with-coppeliasim/1199185">https://forum.arduino.cc/t/maze-solving-robot-with-coppeliasim/1199185</a></span></li>
+<li>       Conveyor Belt Speed Control Through CAN BUS in CoppeliaSim using Arduino Mega2560</li>
+</ol>
 <p style="padding-left: 30px;"><span>soccer field image from </span><a href="https://www.rawpixel.com/image/6479689/png-sticker-public-domain">public domain</a><span>.</span></p>
 <h2>Score_counter</h2>
 <p>機械轉盤計分器:</p>
