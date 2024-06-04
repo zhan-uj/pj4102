@@ -702,9 +702,9 @@ end</pre>
 <p><img alt="" height="724" src="/images/螢幕擷取畫面 2024-05-19 222640.png" width="557"/><img alt="" height="726" src="/images/螢幕擷取畫面 2024-05-10 025640.png" width="560"/></p>
 <p><strong>6.在瀏覽器輸入http://[組長IP]:23020  即可觀看場景並連線對戰</strong></p>
 <p><img alt="" height="410" src="/images/螢幕擷取畫面 2024-05-10 025737.png" width="800"/></p>
-<h2><strong>程式聯動</strong></h2>
+<h2>程式聯動</h2>
 <p>在CoppeliaSim裡，我們在籃框與足球門中加入了碰撞塊當作感測器，發生碰撞時就會觸發得分程式。在開始模擬時CoppeliaSim會持續向RemoteAPI發送碰撞訊號，當碰撞訊號發生改變時，RemoteAPI會透過連接埠(COM5)向Arduino發送1或2的訊號，在Arduino接收到訊號1時，馬達便會帶動實體計分器旋轉36度；收到訊號2時，旋轉180度。</p>
-<h3><strong>CoppeliaSim</strong></h3>
+<h3>CoppeliaSim</h3>
 <p>此程式主要透過碰撞塊當作感測器來觸發得分程式，並將分別的碰撞訊號送至RemoteAPI。</p>
 <p></p>
 <p>足球門之程式 </p>
@@ -781,7 +781,7 @@ function sysCall_actuation()
         messageSent = false
     end
 end</pre>
-<h3><span><strong>RemoteAPI</strong><br/><br/></span></h3>
+<h3>RemoteAPI</h3>
 <p><span>此段程式用於接收來自CoppeliaSim模擬環境的訊號，並根據收到的訊號向連接的Arduino發送不同的指令。</span></p>
 <p></p>
 <pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">from zmqRemoteApi_IPv6 import RemoteAPIClient
@@ -819,7 +819,7 @@ while True:
         print("Failed to get message from simulation.")
 </pre>
 <p></p>
-<h3><strong>Arduino</strong></h3>
+<h3>Arduino</h3>
 <p><strong></strong></p>
 <p>這段程式用於控制步進馬達以及接收來自串口的指令以執行不同的動作。</p>
 <p></p>
@@ -889,9 +889,14 @@ void loop()
 <h1>最終成品展示</h1>
 <p></p>
 <h2>影片展示</h2>
-<p><a href="https://youtu.be/KU4RMpo3IWc" title="機械記分板 虛實結合">機械記分板 虛實結合</a></p>
-<p><a href="https://youtu.be/h3e9VxaCeX8">機械記分板 虛實結合+機器人控制</a></p>
-<h2>檔案</h2>
+<p></p>
+<p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/KU4RMpo3IWc?si=DLuvJGYYfIoAe5kn" title="YouTube video player" width="560"></iframe></p>
+<p></p>
+<p></p>
+<p></p>
+<p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/Yk4sz0L-lgI?si=QjULtujfVNoNwTrh" title="YouTube video player" width="560"></iframe></p>
+<p></p>
+<p><a href="https://youtube.com/shorts/htmeJ8UiVEI?si=l8SFxvw6HCmfPgFH">多人連線遊玩+虛實整合</a></p><h2>檔案</h2>
 <p><a href="/downloads/操作程式.7z">操作程式.7z</a></p>
 <p><a href="/downloads/final0516.ttt">遊戲最終成品</a></p>
 <h2>專題論文</h2>
@@ -904,7 +909,7 @@ void loop()
 <li style="padding-left: 30px;"><a href="https://projecthub.arduino.cc/ansh2919/serial-communication-between-python-and-arduino-663756">https://projecthub.arduino.cc/ansh2919/serial-communication-between-python-and-arduino-663756</a></li>
 <li style="padding-left: 30px;"><a href="/2.	https:/manual.coppeliarobotics.com/en/regularApi/simGetStringSignal.htm">https://manual.coppeliarobotics.com/en/regularApi/simGetStringSignal.htm</a></li>
 <li>        <a href="/3.	https:/manual.coppeliarobotics.com/en/regularApi/simSetStringSignal.htm">https://manual.coppeliarobotics.com/en/regularApi/simSetStringSignal.htm</a></li>
-<li><span>       <a href="https://m.bilibili.com/video/BV1qH4y1Q7Wv?spm_id_from=333.788.recommend_more_video.9">https://m.bilibili.com/video/BV1qH4y1Q7Wv?spm_id_from=333.788.recommend_more_video.9</a></span></li>
+<li><span>       <a href="https://m.bilibili.com/video/BV1qH4y1Q7Wv?spm_id_from=333.788.recommend_more_video.9">https://m.bilibili.com/video/BV1qH4y1Q7Wv?                                                                       spm_id_from=333.788.recommend_more_video.9</a></span></li>
 <li><span>       <a href="https://forum.coppeliarobotics.com/viewtopic.php?t=9533">https://forum.coppeliarobotics.com/viewtopic.php?t=9533</a></span></li>
 <li><span>       <a href="https://forum.arduino.cc/t/maze-solving-robot-with-coppeliasim/1199185">https://forum.arduino.cc/t/maze-solving-robot-with-coppeliasim/1199185</a></span></li>
 <li>       Conveyor Belt Speed Control Through CAN BUS in CoppeliaSim using Arduino Mega2560</li>
